@@ -2,25 +2,22 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-const ServiceSchema = new Schema ({
-    serviceId: {
+const PayerSchema = new Schema ({
+    payerId: {
         type: Number
     },
-    name: {
-        type: String,
-        required: true
+    payerName: {
+        type: String
     },
-    code: {
-        type: Number
-    },
-    standardPrice: {
+    payerCategoryId: {
         type: Number
     },
     active: {
         type: Number
     },
     encodedBy: {
-        type: Number
+        type: Number,
+        required: true
     },
     encodedDate: {
         type: Date,
@@ -33,8 +30,8 @@ const ServiceSchema = new Schema ({
     lastUpdatedDate: {
         type: Date,
         required: true
-    },
-    
+    }
+
 }, {timestamps: true})
 
-export default model("Service", ServiceSchema)
+export default model("Payer", PayerSchema)
