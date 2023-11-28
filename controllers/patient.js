@@ -39,3 +39,28 @@ export const readPatients = async(req, res) => {
         res.status(400).json({message: "cannot find Patients"});
     }
 }
+
+
+//UPDATE
+
+export const updatePatient = async(req, res) => {
+    try {
+        const updated = await Patient.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true})
+        res.status(200).json(updated)
+        console.log(`Incidence "${updated.incidence}" has now been updated! 🐞`)
+    } catch (error) {
+        res.status(400).json({message: "cannot update Patient"});
+    }
+}
+
+//DELETE
+
+export const deletePatient = async(req, res) => {
+    try {       
+        await Patient.findByIdAndDelete(req.params.id)
+        res.status(200).json("Patient has been deleted")
+    } catch (error) {
+        res.status(400).json({message: "Patient cannot be deleted"});
+    }
+
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { createPatient, readPatient, readPatients } from '../controllers/patient.js';
+import { createPatient, readPatient, readPatients, updatePatient, deletePatient } from '../controllers/patient.js';
 
 const router = express.Router();
 
@@ -11,5 +11,11 @@ router.get('/find/:id', readPatient)
 
 //GET ALL
 router.get('/', readPatients)
+
+//UPDATE
+router.put('/:id', updatePatient)
+
+//DELETE
+router.delete('/:id', deletePatient)
 
 export default router;
