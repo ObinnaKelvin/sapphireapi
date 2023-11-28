@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import patientsRoute from '../routes/patient.js'
 import cors from 'cors';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(cors(corsOptions));
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}))
+app.use("/api/patients", patientsRoute)
 
 
 const PORT = process.env.PORT || 9000;
