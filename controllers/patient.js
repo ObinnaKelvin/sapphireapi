@@ -36,7 +36,7 @@ export const readPatients = async(req, res) => {
         const patients = await Patient.find(req._id).sort({createdAt:-1})
         res.status(200).json(patients)
     } catch (error) {
-        res.status(400).json({message: "cannot find Patients"});
+        res.status(400).json({message: "Cannot find Patients"});
     }
 }
 

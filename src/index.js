@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import patientsRoute from '../routes/patient.js'
 import cors from 'cors';
+import authRoute from '../routes/auth.js'
+import userRoute from '../routes/user.js'
+
 
 const app = express();
 dotenv.config();
@@ -30,7 +33,9 @@ app.use(cors(corsOptions));
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}))
-app.use("/api/patients", patientsRoute)
+app.use("/api/patients", patientsRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 
 
 const PORT = process.env.PORT || 9000;

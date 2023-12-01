@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const PatientSchema = new Schema ({
-    patientId: {
-        type: Number
-    },
-    patientNo: {
-        type: Number
-    },
+    // patientId: {
+    //     type: Number
+    // },
+    // patientNo: {
+    //     type: Number
+    // },
     firstName: {
         type: String,
         required: true
@@ -33,8 +33,12 @@ const PatientSchema = new Schema ({
         type: Date,
         required: true
     },
-    maritalStatus: {
+    age: {
         type: Number,
+        default: 20
+    },
+    maritalStatus: {
+        type: String,
         required: true
     },
     address: {
@@ -60,26 +64,24 @@ const PatientSchema = new Schema ({
     },
     payerId: {
         type: Number,
+        default: 1,
         required: true
     },
     active: {
-        type: Number
+        type: Number,
+        default: 1,
     },
     encodedBy: {
         type: Number,
-        required: true
     },
     encodedDate: {
         type: Date,
-        required: true
     },
     lastUpdatedBy: {
         type: Number,
-        required: true
     },
     lastUpdatedDate: {
         type: Date,
-        required: true
     }
 }, {timestamps: true})
 

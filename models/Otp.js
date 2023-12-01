@@ -3,16 +3,6 @@ import mongoose from "mongoose"
 const { Schema, model } = mongoose;
 
 const UserSchema = new Schema({
-    user_id: {
-        type: Number
-    },
-    firstname: {
-        type: String,
-        required: true,
-    },
-    lastname: {
-        type: String,
-    },
     username: {
         type: String,
         required: true,
@@ -20,7 +10,7 @@ const UserSchema = new Schema({
     email: {
         type: String
     },
-    password: {
+    otp: {
         type: String,
         required: true,
     },
