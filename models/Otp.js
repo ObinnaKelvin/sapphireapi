@@ -5,10 +5,10 @@ const { Schema, model } = mongoose;
 const OTPSchema = new Schema({
     username: {
         type: String,
-        required: true,
     },
     email: {
-        type: String
+        type: String,
+        required: true,
     },
     phone: {
         type: Number

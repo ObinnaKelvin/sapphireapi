@@ -8,21 +8,18 @@ const UserSchema = new Schema({
     },
     firstname: {
         type: String,
-        required: true,
     },
     lastname: {
         type: String,
     },
     username: {
         type: String,
-        required: true,
     },
     email: {
         type: String
     },
     password: {
         type: String,
-        required: true,
     },
     gender: {
         type: String

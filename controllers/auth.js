@@ -4,6 +4,7 @@ import otpGenerator from 'otp-generator';
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import Otp from '../models/Otp.js';
+import _ from 'lodash'
 
 export const register = async (req, res) => {
 
@@ -53,7 +54,7 @@ export const register = async (req, res) => {
 
 export const login = async(req, res) => {
     try {
-        const user = await User.findOne({username: req.body.username})
+        const user = await User.findOne({email: req.body.email})
         //console.log(user)
 
         if(!user) return res.status(404).json("User not found 🙅‍♂️")
@@ -74,18 +75,19 @@ export const login = async(req, res) => {
 
         //Here comes the OTP authentication
         const OTP = otpGenerator.generate(6, {
-            digits: true, alphabets: false, upperCase: false, specialChars: false
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
         });
 
-        const username = req.body.username;
+        const email = req.body.email;
         console.log(OTP);
 
-        const otp = new Otp({ username: username, otp: OTP})
+        const otp = new Otp({ email: email, otp: OTP})
         const salt = await bcrypt.genSalt(10);
         otp.otp = await bcrypt.hash(otp.otp, salt);
 
         const result = await otp.save();
-        return res.status(200).send("OTP sent successfully")
+        // return res.status(200).json("OTP sent successfully");
+        console.log("OTP sent successfully");
 
     } catch (error) {
         console.log(error)
@@ -94,5 +96,21 @@ export const login = async(req, res) => {
 
 
 export const verifyOtp = async(req, res) => {
+    const otpHolder = await Otp.find({
+        email: req.body.email
+    });
+    if(otpHolder.length === 0) return res.status(400).send("Sorry, the OTP has Expired!");
+    const lastOtpFind = otpHolder[otpHolder.length -1];
+    const validUser = await bcrypt.compareSync(req.body.otp, lastOtpFind.otp);
 
+    if(lastOtpFind.email === req.body.email && validUser) {
+        const user = new User(_.pick(req.body, ["email"]));
+        //const token = user.generateJWt();
+        //const result = await user.save();
+        return res.status(200).send({
+            message: "User Verified Successfully!"
+        })
+    } else {
+        return res.status(400).send("OTP Validation Unsuccessfull")
+    }
 }
