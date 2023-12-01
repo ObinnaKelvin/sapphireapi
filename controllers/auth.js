@@ -1,7 +1,9 @@
 import User from '../models/User.js';
-import OTP from '../models/OTP.js';
+import OTP from '../models/Otp.js';
+import otpGenerator from 'otp-generator';
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
+import Otp from '../models/Otp.js';
 
 export const register = async (req, res) => {
 
@@ -70,7 +72,27 @@ export const login = async(req, res) => {
         .status(200).json({details: {...otherDetails}, isAdmin})
         console.log(`${user._doc.firstname} logged in successfully!🙋‍♂️`)
 
+        //Here comes the OTP authentication
+        const OTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, upperCase: false, specialChars: false
+        });
+
+        const username = req.body.username;
+        console.log(OTP);
+
+        const otp = new Otp({ username: username, otp: OTP})
+        const salt = await bcrypt.genSalt(10);
+        otp.otp = await bcrypt.hash(otp.otp, salt);
+
+        const result = await otp.save();
+        return res.status(200).send("OTP sent successfully")
+
     } catch (error) {
         console.log(error)
     }
+}
+
+
+export const verifyOtp = async(req, res) => {
+
 }
