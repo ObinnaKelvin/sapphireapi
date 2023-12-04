@@ -5,6 +5,9 @@ import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import Otp from '../models/Otp.js';
 import _ from 'lodash'
+import nodemailer from 'nodemailer'
+
+
 
 export const register = async (req, res) => {
 
@@ -85,9 +88,15 @@ export const login = async(req, res) => {
         const salt = await bcrypt.genSalt(10);
         otp.otp = await bcrypt.hash(otp.otp, salt);
 
-        const result = await otp.save();
-        // return res.status(200).json("OTP sent successfully");
+        const result = await otp.save()
+        // console.log(result)
+        .then((output) => {
+            const receiptEmail = output.email
+            sendEmailOtp(receiptEmail, OTP);
+        });
+        //return res.status(200).json("OTP sent successfully");
         console.log("OTP sent successfully");
+
 
     } catch (error) {
         console.log(error)
@@ -99,7 +108,7 @@ export const verifyOtp = async(req, res) => {
     const otpHolder = await Otp.find({
         email: req.body.email
     });
-    if(otpHolder.length === 0) return res.status(400).send("Sorry, the OTP has Expired!");
+    if(otpHolder.length === 0) return res.status(400).json("Sorry, the OTP has Expired!");
     const lastOtpFind = otpHolder[otpHolder.length -1];
     const validUser = await bcrypt.compareSync(req.body.otp, lastOtpFind.otp);
 
@@ -107,10 +116,68 @@ export const verifyOtp = async(req, res) => {
         const user = new User(_.pick(req.body, ["email"]));
         //const token = user.generateJWt();
         //const result = await user.save();
-        return res.status(200).send({
+        return res.status(200).json({
             message: "User Verified Successfully!"
         })
     } else {
         return res.status(400).send("OTP Validation Unsuccessfull")
     }
+}
+
+export const sendEmailOtp = async(emailParams, otpParams) => {
+
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        // service: "gmail",
+       auth: {
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
+       }
+    });
+
+
+    try {   
+        //test transporter
+        transporter.verify((error, success) => {
+            if(error){
+                console.log("Transporter Error", error)
+            } else {
+                console.log(success)
+            }
+        });
+
+        const mailOptions = {
+            // from: OTP_EMAIL,
+            from: `Sapphire ${OTP_EMAIL}`,
+            to: emailParams,
+            subject: "Verify Your Identity",
+            html: `<p> Enter <b>${otpParams}</b> in the app to verify your identity.<p>
+                    <p>This code <b>expires in 5 minutes</b>.</p>`
+        }
+        await transporter.sendMail(mailOptions), (err, info) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        };
+        // res.json({
+        //     status: "Pending",
+        //     message: "Verification OTP Email Sent",
+        //     data: {
+        //         email,
+        //     },
+        // })
+        // return;
+    } catch (error) {
+        console.log(error)
+            // res.json({
+            //     status: "FAILED",
+            //     message: error.message,
+            // })
+        // throw error;
+    }
+
 }
