@@ -92,7 +92,7 @@ export const login = async(req, res) => {
         // console.log(result)
         .then((output) => {
             const receiptEmail = output.email
-            sendEmailOtp(receiptEmail, OTP);
+            sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
         });
         //return res.status(200).json("OTP sent successfully");
         console.log("OTP sent successfully");
@@ -104,13 +104,21 @@ export const login = async(req, res) => {
 }
 
 
-export const verifyOtp = async(req, res) => {
+export const verifyOtp = async (req, res) => {
     const otpHolder = await Otp.find({
         email: req.body.email
-    });
+    }); 
     if(otpHolder.length === 0) return res.status(400).json("Sorry, the OTP has Expired!");
     const lastOtpFind = otpHolder[otpHolder.length -1];
-    const validUser = await bcrypt.compareSync(req.body.otp, lastOtpFind.otp);
+    const formOTP = await req.body.otp;
+   
+    const validUser = await bcrypt.compareSync(formOTP, lastOtpFind.otp);
+    //console.log("lastOtpFind:", lastOtpFind.otp)
+    //const formOTP = req.body.otp;
+    console.log("formOTP:", formOTP)
+    //const convertOTPString = formOTP.toString()
+    //const validUser = await bcrypt.compareSync(convertOTPString, lastOtpFind.otp);
+    console.log("validUser:", validUser)
 
     if(lastOtpFind.email === req.body.email && validUser) {
         const user = new User(_.pick(req.body, ["email"]));
@@ -124,7 +132,38 @@ export const verifyOtp = async(req, res) => {
     }
 }
 
-export const sendEmailOtp = async(emailParams, otpParams) => {
+export const generateNewOTP = async (req, res) => {
+
+    try {
+        //const user = await User.find({email: req.body.email})
+
+        //Here comes the OTP authentication
+        const OTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
+        });
+
+        const email = req.body.email;
+        console.log(OTP);
+
+        const otp = new Otp({ email: email, otp: OTP})
+        const salt = await bcrypt.genSalt(10);
+        otp.otp = await bcrypt.hash(otp.otp, salt);
+
+        const result = await otp.save()
+        // console.log(result)
+        .then((output) => {
+            const receiptEmail = output.email
+            sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
+        });
+        return res.status(200).json("OTP sent successfully");
+        console.log("OTP sent successfully");
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
     const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
@@ -153,9 +192,14 @@ export const sendEmailOtp = async(emailParams, otpParams) => {
             // from: OTP_EMAIL,
             from: `Sapphire ${OTP_EMAIL}`,
             to: emailParams,
-            subject: "Verify Your Identity",
-            html: `<p> Enter <b>${otpParams}</b> in the app to verify your identity.<p>
-                    <p>This code <b>expires in 5 minutes</b>.</p>`
+            subject: "Sapphire Login Verification 🔒",
+            html:   `<div style="width: 100%">
+                    </div>
+                    <p>Your verification code</p>
+                    <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
+                    <p>The verification code will be valid for <b>5 minutes</b>. Please do not share this code with anyone.</p>
+                    <em>This is an automated message, please do not reply.</em>
+                    `
         }
         await transporter.sendMail(mailOptions), (err, info) => {
             if (err) {
