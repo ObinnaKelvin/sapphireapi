@@ -128,7 +128,7 @@ export const verifyOtp = async (req, res) => {
             message: "User Verified Successfully!"
         })
     } else {
-        return res.status(400).send("OTP Validation Unsuccessfull")
+        return res.status(400).json("OTP Validation Unsuccessfull")
     }
 }
 
@@ -155,8 +155,8 @@ export const generateNewOTP = async (req, res) => {
             const receiptEmail = output.email
             sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
         });
-        return res.status(200).json("OTP sent successfully");
-        console.log("OTP sent successfully");
+        console.log("New OTP sent successfully");
+        return res.status(200).json("New OTP sent successfully");
         
     } catch (error) {
         console.log(error)
