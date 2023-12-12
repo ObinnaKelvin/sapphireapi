@@ -163,6 +163,70 @@ export const generateNewOTP = async (req, res) => {
     }
 }
 
+export const generateNewOTPForPasswordReset = async (req, res) => {
+
+    try {
+        const user = await User.findOne({email: req.body.email})
+        if(!user) return res.status(404).json("User not found 🙅‍♂️")
+
+        const OTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
+        });
+
+        const email = req.body.email;
+        console.log(OTP);
+
+        const otp = new Otp({ email: email, otp: OTP})
+        const salt = await bcrypt.genSalt(10);
+        otp.otp = await bcrypt.hash(otp.otp, salt);
+
+        const result = await otp.save()
+        .then((output) => {
+            const receiptEmail = output.email
+            sendPasswordResetOtp(receiptEmail, OTP); //Sends email here
+        });
+        console.log("New Reset OTP sent successfully");
+        return res.status(200).json("New Reset OTP sent successfully");
+        
+    } catch (error) {
+        
+    }
+}
+
+export const resetPassword = async (req, res) => {
+    //1. Create hashed password
+    //2. Assign to user
+    //3. set passwordIsValidated to 0
+
+    //Password Recovery Email is sent containing OTP
+    //User enters OTP
+    //Resets Password
+
+    try {
+        const user = await User.findOne({email: req.body.email})
+        if(!user) return res.status(404).json("User not found 🙅‍♂️")
+        //Here comes the random password generating
+        // const newPassword = otpGenerator.generate(6, {
+        //     digits: true, alphabets: true, lowerCaseAlphabets: true, upperCaseAlphabets: false, specialChars: false
+        // });
+        const newOTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
+        });
+
+        const email = req.body.email;
+        console.log(OTP);
+
+        const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
+        res.status(200).json(updated)
+        console.log(newPassword)
+        return res.status(200).json("New Password generated");
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
     const { OTP_EMAIL, OTP_PASSWORD } = process.env;
@@ -197,7 +261,71 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
                     </div>
                     <p>Your verification code</p>
                     <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
-                    <p>The verification code will be valid for <b>5 minutes</b>. Please do not share this code with anyone.</p>
+                    <p>The verification code will be valid for <b>10 minutes</b>. Please do not share this code with anyone.</p>
+                    <em>This is an automated message, please do not reply.</em>
+                    `
+        }
+        await transporter.sendMail(mailOptions), (err, info) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        };
+        // res.json({
+        //     status: "Pending",
+        //     message: "Verification OTP Email Sent",
+        //     data: {
+        //         email,
+        //     },
+        // })
+        // return;
+    } catch (error) {
+        console.log(error)
+            // res.json({
+            //     status: "FAILED",
+            //     message: error.message,
+            // })
+        // throw error;
+    }
+
+}
+
+
+export const sendPasswordResetOtp = async(emailParams, otpParams) => {
+
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        // service: "gmail",
+       auth: {
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
+       }
+    });
+
+
+    try {   
+        //test transporter
+        transporter.verify((error, success) => {
+            if(error){
+                console.log("Transporter Error", error)
+            } else {
+                console.log(success)
+            }
+        });
+
+        const mailOptions = {
+            // from: OTP_EMAIL,
+            from: `Sapphire ${OTP_EMAIL}`,
+            to: emailParams,
+            subject: "Sapphire Password Reset Verification 🔒",
+            html:   `<div style="width: 100%">
+                    </div>
+                    <p>Your verification code</p>
+                    <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
+                    <p>The verification code will be valid for <b>10 minutes</b>. Please do not share this code with anyone.</p>
                     <em>This is an automated message, please do not reply.</em>
                     `
         }
