@@ -205,21 +205,16 @@ export const resetPassword = async (req, res) => {
     try {
         const user = await User.findOne({email: req.body.email})
         if(!user) return res.status(404).json("User not found 🙅‍♂️")
-        //Here comes the random password generating
-        // const newPassword = otpGenerator.generate(6, {
-        //     digits: true, alphabets: true, lowerCaseAlphabets: true, upperCaseAlphabets: false, specialChars: false
-        // });
-        const newOTP = otpGenerator.generate(6, {
-            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
-        });
 
-        const email = req.body.email;
-        console.log(OTP);
+        const id = await user.id;
+        console.log(id);
+        res.status(200).json(id);
 
-        const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
-        res.status(200).json(updated)
-        console.log(newPassword)
-        return res.status(200).json("New Password generated");
+        // const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
+        //const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
+        //res.status(200).json(updated)
+        //console.log(newPassword)
+        //return res.status(200).json("New Password generated");
 
         
     } catch (error) {

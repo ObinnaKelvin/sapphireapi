@@ -8,6 +8,6 @@ router.post('/login', login)
 router.post('/login/verify', verifyOtp)
 router.post('/login/generate-new', generateNewOTP)
 router.post('/login/generate-new-password-reset', generateNewOTPForPasswordReset)
-router.put('/login/password-reset/:id', resetPassword)
+router.put('/login/password-reset/', resetPassword)
 
 export default router;
