@@ -206,15 +206,19 @@ export const resetPassword = async (req, res) => {
         const user = await User.findOne({email: req.body.email})
         if(!user) return res.status(404).json("User not found 🙅‍♂️")
 
+        //Get id of user
         const id = await user.id;
-        console.log(id);
-        res.status(200).json(id);
+        //console.log(id);
+        //res.status(200).json(id);
+        //Encrypt Password
+        const salt = bcrypt.genSaltSync(12);
+        const hash = bcrypt.hashSync(req.body.resetPassword, salt);
 
-        // const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
+        const updated = await User.findByIdAndUpdate(id, { password: hash}, {new:true}) 
         //const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
         //res.status(200).json(updated)
-        //console.log(newPassword)
-        //return res.status(200).json("New Password generated");
+        console.log("New Password generated", updated)
+        return res.status(200).json(updated);
 
         
     } catch (error) {
