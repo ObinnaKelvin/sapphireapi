@@ -62,6 +62,22 @@ const PatientSchema = new Schema ({
     kinAddress: {
         type: String,
     },
+    emergencyName: {
+        type: String,
+    },
+    emergencyPhone: {
+        type: String,
+    },
+    emergencyRelationship: {
+        type: String,
+    },
+    emergencyAddress: {
+        type: String,
+    },
+    isFullyRegistered: {
+        type: Number,
+        default: 0,
+    },
     payerId: {
         type: Number,
         default: 1,

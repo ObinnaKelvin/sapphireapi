@@ -325,6 +325,7 @@ export const sendPasswordResetOtp = async(emailParams, otpParams) => {
                     <p>Your verification code</p>
                     <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
                     <p>The verification code will be valid for <b>10 minutes</b>. Please do not share this code with anyone.</p>
+                    <p>If you didn't mean to reset your password, then you can just ignore this email.</p>
                     <em>This is an automated message, please do not reply.</em>
                     `
         }
