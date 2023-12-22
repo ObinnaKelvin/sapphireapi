@@ -41,7 +41,7 @@ export const register = async (req, res) => {
             role:req.body.role
         })
 
-        const isExist = await User.findOne({firstname: req.body.firstname})
+        const isExist = await User.findOne({email: req.body.email})
         if(isExist) return res.status(404).json("User already exists 🙅‍♂️")
         await newUser.save()
         res.status(200).json(newUser)

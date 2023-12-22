@@ -90,7 +90,10 @@ const AppointmentSchema = new Schema ({
     cancelReason: {
         type: String
     },
-    // invoiceId integer
+    invoiceId: {
+        type: Number,
+        default: null
+    },
     payerId: {
         type: Number,
         required: true

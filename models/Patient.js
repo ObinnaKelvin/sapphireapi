@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const PatientSchema = new Schema ({
-    // patientId: {
-    //     type: Number
-    // },
-    // patientNo: {
-    //     type: Number
-    // },
+    patientId: {
+        type: Number
+    },
+    patientNo: {
+        type: Number
+    },
     firstName: {
         type: String,
         required: true
