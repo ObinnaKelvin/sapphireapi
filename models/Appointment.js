@@ -13,7 +13,8 @@ const AppointmentSchema = new Schema ({
         type: Number
     },
     staffId: {
-        type: Number
+        type: Number,
+        default: null
     },
     visitId: {
         type: Number
@@ -35,7 +36,7 @@ const AppointmentSchema = new Schema ({
         required: true
     },
     age: {
-        type: Date,
+        type: Number,
         required: true
     },
     gender: {
@@ -63,13 +64,16 @@ const AppointmentSchema = new Schema ({
         default: null
     },
     appointmentStatus: {
-        type: Number
+        type: Number,
+        default: 9
     },
     paymentStatus: {
-        type: Number
+        type: Number,
+        default: 2
     },
     active: {
-        type: Number
+        type: Number,
+        default: 1
     },
     encodedBy: {
         type: Number,
@@ -104,11 +108,9 @@ const AppointmentSchema = new Schema ({
     },
     checkInBy: {
         type: Number,
-        required: true
     },
     checkInDate: {
         type: Date,
-        required: true
     },
 }, {timestamps: true})
 

@@ -23,113 +23,35 @@ export const createAppointment = async (req, res) => {
 
         const newAppointment = new Appointment({
         
-            appointmentId: {
-                type: Number
-            },
-            patientId: {
-                type: Number
-            },
-            patientNo: {
-                type: Number
-            },
-            staffId: {
-                type: Number
-            },
-            visitId: {
-                type: Number
-            },
-            firstName: {
-                type: String,
-                required: true
-            },
-            middleName: {
-                type: String,
-                required: true
-            },
-            lastName: {
-                type: String,
-                required: true
-            },
-            dateOfBirth: {
-                type: Date,
-                required: true
-            },
-            age: {
-                type: Date,
-                required: true
-            },
-            gender: {
-                type: String,
-                required: true
-            },
-            mobile: {
-                type: Number,
-                required: true
-            },
-            email: {
-                type: String,
-                required: true
-            },
-            referralTypeId: {
-                type: Number,
-                default: null
-            },
-            referToDoctor: {
-                type: Number,
-                default: null
-            },
-            authorizationNo: {
-                type: Number,
-                default: null
-            },
-            appointmentStatus: {
-                type: Number
-            },
-            paymentStatus: {
-                type: Number
-            },
-            active: {
-                type: Number
-            },
-            encodedBy: {
-                type: Number,
-                required: true
-            },
-            encodedDate: {
-                type: Date,
-                required: true
-            },
-            lastUpdatedBy: {
-                type: Number,
-                required: true
-            },
-            lastUpdatedDate: {
-                type: Date,
-                required: true
-            },
-            cancelReason: {
-                type: String
-            },
-            invoiceId: {
-                type: Number,
-                default: null
-            },
-            payerId: {
-                type: Number,
-                required: true
-            },
-            payerCategoryId: {
-                type: Number,
-                required: true
-            },
-            checkInBy: {
-                type: Number,
-                required: true
-            },
-            checkInDate: {
-                type: Date,
-                required: true
-            },
+            appointmentId: newItemid,
+            patientId: req.body.patientId,
+            patientNo: req.body.patientNo,
+            staffId: req.body.staffId,
+            visitId: req.body.visitId,
+            firstName: req.body.firstName,
+            middleName: req.body.middleName,
+            lastName: req.body.lastName,
+            dateOfBirth: req.body.dateOfBirth,
+            age: req.body.age,
+            gender: req.body.gender,
+            mobile: req.body.mobile,
+            email: req.body.email,
+            referralTypeId: req.body.referralTypeId,
+            referToDoctor: req.body.referToDoctor,
+            authorizationNo: req.body.authorizationNo,
+            appointmentStatus: req.body.appointmentStatus,
+            paymentStatus: req.body.paymentStatus,
+            active: req.body.active,
+            encodedBy: req.body.encodedBy,
+            encodedDate: req.body.encodedDate,
+            lastUpdatedBy: req.body.lastUpdatedBy,
+            lastUpdatedDate: req.body.lastUpdatedDate,
+            cancelReason: req.body.cancelReason,
+            invoiceId: req.body.invoiceId,
+            payerId: req.body.payerId,
+            payerCategoryId: req.body.payerCategoryId,
+            checkInBy: req.body.checkInBy,
+            checkInDate: req.body.checkInDate
 
         })
 
@@ -157,8 +79,8 @@ export const readAppointment = async (req, res) => {
 
 export const readAppointments = async(req, res) => {
     try {
-        const appointments = await Patient.find(req._id).sort({createdAt:-1})
-        res.status(200).json(patients)
+        const appointments = await Appointment.find(req._id).sort({createdAt:-1})
+        res.status(200).json(appointments)
     } catch (error) {
         res.status(400).json({message: "Cannot find Patients"});
     }
