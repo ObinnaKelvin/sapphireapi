@@ -1,9 +1,9 @@
 import express from "express";
-import { createStatus } from '../controllers/status.js';
+import { createPayer } from '../controllers/payer.js';
 
 const router = express.Router();
 
 //CREATE
-router.post('/', createStatus)
+router.post('/', createPayer)
 
 export default router;

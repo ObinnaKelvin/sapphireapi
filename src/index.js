@@ -2,6 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import patientsRoute from '../routes/patient.js'
+import appointmentsRoute from '../routes/appointment.js'
+import referraltypesRoute from '../routes/referraltypes.js'
+import statusRoute from '../routes/status.js'
+import payerCategoryRoute from '../routes/payercategory.js'
+import payerRoute from '../routes/payer.js'
 import cors from 'cors';
 import authRoute from '../routes/auth.js'
 import userRoute from '../routes/user.js'
@@ -34,6 +39,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}))
 app.use("/api/patients", patientsRoute);
+app.use("/api/appointments", appointmentsRoute);
+app.use("/api/referraltypes", referraltypesRoute);
+app.use("/api/payerCategory", payerCategoryRoute);
+app.use("/api/payer", payerRoute);
+app.use("/api/status", statusRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 

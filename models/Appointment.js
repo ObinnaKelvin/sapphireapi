@@ -38,8 +38,8 @@ const AppointmentSchema = new Schema ({
         type: Date,
         required: true
     },
-    genderId: {
-        type: Number,
+    gender: {
+        type: String,
         required: true
     },
     mobile: {
@@ -51,13 +51,16 @@ const AppointmentSchema = new Schema ({
         required: true
     },
     referralTypeId: {
-        type: Number
+        type: Number,
+        default: null
     },
     referToDoctor: {
-        type: Number
+        type: Number,
+        default: null
     },
     authorizationNo: {
-        type: Number
+        type: Number,
+        default: null
     },
     appointmentStatus: {
         type: Number

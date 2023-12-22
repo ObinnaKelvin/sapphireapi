@@ -21,7 +21,7 @@ const PayerSchema = new Schema ({
     },
     encodedDate: {
         type: Date,
-        required: true
+        //required: true
     },
     lastUpdatedBy: {
         type: Number,
@@ -29,7 +29,7 @@ const PayerSchema = new Schema ({
     },
     lastUpdatedDate: {
         type: Date,
-        required: true
+        //required: true
     }
 
 }, {timestamps: true})
