@@ -35,7 +35,8 @@ const UserSchema = new Schema({
         default: false,
     },
     role:{
-        type: String
+        type: String,
+        default: "patient"
     },
     isActive: {
         type: Boolean,
