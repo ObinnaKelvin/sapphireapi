@@ -63,6 +63,16 @@ const AppointmentSchema = new Schema ({
         type: Number,
         default: null
     },
+    service: {
+        type: String,
+    },
+    tariff: {
+        type: Number
+    },
+    appointmentDate: {
+        type: Date,
+        required: true
+    },
     appointmentStatus: {
         type: Number,
         default: 9
