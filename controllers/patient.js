@@ -231,7 +231,11 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
                             <div style="width: 100px; background-color: #0C4CAC; color: #ffffff; padding:10px; text-align:center; margin: 0px auto 0px auto; cursor: pointer">Login</div>
                         </a>
                     </div>
-                    <br/><br/><br/>
+                    <br/>
+                    <p>Thanks,
+                    The Sapphire Team.
+                    </p>
+                    <br/><br/>
                     <em>This is an automated message, please do not reply.</em>
                     `
         }

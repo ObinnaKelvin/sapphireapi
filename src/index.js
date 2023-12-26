@@ -10,6 +10,7 @@ import payerRoute from '../routes/payer.js'
 import cors from 'cors';
 import authRoute from '../routes/auth.js'
 import userRoute from '../routes/user.js'
+import tariffRoute from '../routes/tariff.js'
 
 
 const app = express();
@@ -46,6 +47,7 @@ app.use("/api/payer", payerRoute);
 app.use("/api/status", statusRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/tariff", tariffRoute);
 
 
 const PORT = process.env.PORT || 9000;
