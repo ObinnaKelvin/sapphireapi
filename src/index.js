@@ -11,6 +11,7 @@ import cors from 'cors';
 import authRoute from '../routes/auth.js'
 import userRoute from '../routes/user.js'
 import tariffRoute from '../routes/tariff.js'
+import serviceRoute from '../routes/service.js'
 
 
 const app = express();
@@ -48,6 +49,7 @@ app.use("/api/status", statusRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/tariff", tariffRoute);
+app.use("/api/service", serviceRoute);
 
 
 const PORT = process.env.PORT || 9000;

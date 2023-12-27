@@ -6,12 +6,12 @@ const ServiceSchema = new Schema ({
     serviceId: {
         type: Number
     },
-    name: {
+    serviceName: {
         type: String,
         required: true
     },
     code: {
-        type: Number
+        type: String
     },
     standardPrice: {
         type: Number

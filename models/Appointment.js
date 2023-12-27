@@ -19,26 +19,25 @@ const AppointmentSchema = new Schema ({
     visitId: {
         type: Number
     },
-    firstName: {
+    firstname: {
         type: String,
         required: true
     },
-    middleName: {
+    middlename: {
+        type: String,
+    },
+    lastname: {
         type: String,
         required: true
     },
-    lastName: {
-        type: String,
-        required: true
-    },
-    dateOfBirth: {
-        type: Date,
-        required: true
-    },
-    age: {
-        type: Number,
-        required: true
-    },
+    // dateOfBirth: {
+    //     type: Date,
+    //     required: true
+    // },
+    // age: {
+    //     type: Number,
+    //     required: true
+    // },
     gender: {
         type: String,
         required: true
@@ -50,6 +49,9 @@ const AppointmentSchema = new Schema ({
     email: {
         type: String,
         required: true
+    },
+    notes: {
+        type: String,
     },
     referralTypeId: {
         type: Number,
@@ -87,7 +89,7 @@ const AppointmentSchema = new Schema ({
     },
     encodedBy: {
         type: Number,
-        required: true
+        //required: true
     },
     encodedDate: {
         type: Date,
@@ -95,11 +97,11 @@ const AppointmentSchema = new Schema ({
     },
     lastUpdatedBy: {
         type: Number,
-        required: true
+        //required: true
     },
     lastUpdatedDate: {
         type: Date,
-        required: true
+        //required: true
     },
     cancelReason: {
         type: String
@@ -110,10 +112,12 @@ const AppointmentSchema = new Schema ({
     },
     payerId: {
         type: Number,
+        default: 1,
         required: true
     },
     payerCategoryId: {
         type: Number,
+        default: 1,
         required: true
     },
     checkInBy: {

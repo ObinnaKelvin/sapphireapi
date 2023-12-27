@@ -32,9 +32,9 @@ export const createAppointment = async (req, res) => {
             patientNo: req.body.patientNo,
             staffId: req.body.staffId,
             visitId: req.body.visitId,
-            firstName: req.body.firstName,
-            middleName: req.body.middleName,
-            lastName: req.body.lastName,
+            firstname: req.body.firstname,
+            middlename: req.body.middleName,
+            lastname: req.body.lastName,
             dateOfBirth: req.body.dateOfBirth,
             age: req.body.age,
             gender: req.body.gender,
@@ -281,7 +281,7 @@ export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, 
                     <span>Service: <b>${serviceParams}</b></span><br/>
                     <span>Cost: <b>${costParams}</b></span><br/>
                     <br/>
-                    <p>Thanks,
+                    <p>Thanks,<br/>
                     The Sapphire Team.
                     </p>
                     
