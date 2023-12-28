@@ -1,16 +1,16 @@
 import express from "express";
-import { createService, readService, readServices } from '../controllers/service.js';
+import { createTariff, readTariff, readTariffs } from '../controllers/tariff.js';
 
 const router = express.Router();
 
 //CREATE
-router.post('/', createService)
+router.post('/', createTariff)
 
 //GET
-router.get('/find/:id', readService)
+router.get('/find/:id', readTariff)
 
 //GET ALL
-router.get('/', readServices)
+router.get('/', readTariffs)
 
 //UPDATE
 //router.put('/:id', updatePatient)

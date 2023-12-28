@@ -33,8 +33,8 @@ export const createAppointment = async (req, res) => {
             staffId: req.body.staffId,
             visitId: req.body.visitId,
             firstname: req.body.firstname,
-            middlename: req.body.middleName,
-            lastname: req.body.lastName,
+            middlename: req.body.middlename,
+            lastname: req.body.lastname,
             dateOfBirth: req.body.dateOfBirth,
             age: req.body.age,
             gender: req.body.gender,
@@ -67,7 +67,7 @@ export const createAppointment = async (req, res) => {
         .then((output) => {
             //console.log(output)
             //sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-            sendAppointmentCreationEmail(output.email, output.firstName, output.lastName, output.appointmentDate, output.service, output.tariff, output.appointmentId)
+            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId)
         })
         res.status(200).json(newAppointment)
         //res.status(200).json(savedAppointment)
@@ -122,7 +122,7 @@ export const createAppointment = async (req, res) => {
                 //console.log(output)
                 //const { email, firstname  } = output
                 sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-                sendAppointmentCreationEmail(output.email, output.firstName, output.lastName, output.appointmentDate, output.service, output.tariff, output.appointmentId)
+                sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId)
             })
             console.log(`User "${newUser.firstname}" has now been created!🙋‍♂️`)
 

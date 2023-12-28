@@ -38,7 +38,8 @@ export const createTariff = async (req, res) => {
 
 export const readTariff = async (req, res) => {
     try {
-        const tariff = await Tariff.findById(req.params.id)
+        const tariff = await Tariff.findOne({serviceId: req.params.id})
+        //const tariff = await Tariff.findById(req.params.id)
         res.status(200).json(tariff)
     } catch (error) {
         res.status(400).json(error);
