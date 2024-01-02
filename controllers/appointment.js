@@ -1,5 +1,6 @@
 import Appointment from "../models/Appointment.js";
 import User from "../models/User.js";
+import Patient from "../models/Patient.js";
 import otpGenerator from 'otp-generator';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer'
@@ -25,21 +26,29 @@ export const createAppointment = async (req, res) => {
             newItemid = lastItemId[0].appointmentId + 1;  //2. If exist set the newItem id
         }
 
+        //Find Patient No
+        let isPatientNo;
+        let isPatientId;
+        const isPatientExist = await Patient.findOne({email: req.body.email, mobile: req.body.mobile})
+        isPatientNo = isPatientExist.patientNo
+        isPatientId = isPatientExist.patientId
+
         const newAppointment = new Appointment({
         
             appointmentId: newItemid,
-            patientId: req.body.patientId,
-            patientNo: req.body.patientNo,
+            patientId: isPatientId,
+            patientNo: isPatientNo,
             staffId: req.body.staffId,
             visitId: req.body.visitId,
             firstname: req.body.firstname,
             middlename: req.body.middlename,
             lastname: req.body.lastname,
-            dateOfBirth: req.body.dateOfBirth,
-            age: req.body.age,
+            // dateOfBirth: req.body.dateOfBirth,
+            // age: req.body.age,
             gender: req.body.gender,
             mobile: req.body.mobile,
-            email: req.body.email,
+            email: req.body.email,         
+            notes: req.body.notes,
             service: req.body.service,
             tariff: req.body.tariff,
             referralTypeId: req.body.referralTypeId,
@@ -67,7 +76,7 @@ export const createAppointment = async (req, res) => {
         .then((output) => {
             //console.log(output)
             //sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId)
+            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId, output.paymentStatus)
         })
         res.status(200).json(newAppointment)
         //res.status(200).json(savedAppointment)
@@ -105,8 +114,8 @@ export const createAppointment = async (req, res) => {
     
             const newUser = new User({
                 user_id: newUserid,
-                firstname: req.body.firstName,
-                lastname: req.body.lastName,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
                 //username: req.body.username,
                 email: req.body.email,
                 password: hash,
@@ -139,6 +148,17 @@ export const createAppointment = async (req, res) => {
 export const readAppointment = async (req, res) => {
     try {
         const appointment = await Appointment.findById(req.params.id)
+        res.status(200).json(appointment)
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
+//READ BY EMAIL
+
+export const readAppointmentByEmail = async (req, res) => {
+    try {
+        const appointment = await Appointment.find({email: req.params.id})
         res.status(200).json(appointment)
     } catch (error) {
         res.status(400).json(error);
@@ -237,7 +257,7 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
 
 }
 
-export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, lastnameParams, dateParams, serviceParams, costParams, appointmentIdParams) => {
+export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, lastnameParams, dateParams, serviceParams, costParams, appointmentIdParams, statusParams) => {
 
     const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
@@ -280,6 +300,7 @@ export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, 
                     <span>Date: <b>${dateParams}</b></span><br/>
                     <span>Service: <b>${serviceParams}</b></span><br/>
                     <span>Cost: <b>${costParams}</b></span><br/>
+                    <span>Payment Status: <b>${statusParams}</b></span><br/>
                     <br/>
                     <p>Thanks,<br/>
                     The Sapphire Team.

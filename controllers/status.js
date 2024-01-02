@@ -40,3 +40,26 @@ export const createStatus = async (req, res) => {
         res.status(400).json(error);
     }
 }
+
+
+//READ
+
+export const readStatus = async (req, res) => {
+    try {
+        const status = await Status.findOne({statusId: req.params.id})
+        //const status = await Status.findById(req.params.id)
+        res.status(200).json(status)
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
+//READ ALL
+
+export const readStatuses = async(req, res) => {
+    try {const statuses = await Status.find(req._id).sort({createdAt:-1})
+        res.status(200).json(statuses)
+    } catch (error) {
+        res.status(400).json({message: "Cannot find statuses"});
+    }
+}

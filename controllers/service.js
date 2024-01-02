@@ -51,6 +51,6 @@ export const readServices = async(req, res) => {
         const service = await Service.find(req._id).sort({createdAt:-1})
         res.status(200).json(service)
     } catch (error) {
-        res.status(400).json({message: "Cannot find tariffs"});
+        res.status(400).json({message: "Cannot find services"});
     }
 }

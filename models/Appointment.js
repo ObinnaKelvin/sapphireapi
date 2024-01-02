@@ -79,9 +79,13 @@ const AppointmentSchema = new Schema ({
         type: Number,
         default: 9
     },
+    // paymentStatus: {
+    //     type: Number,
+    //     default: 2
+    // },
     paymentStatus: {
-        type: Number,
-        default: 2
+        type: String,
+        default: "Pending"
     },
     active: {
         type: Number,
