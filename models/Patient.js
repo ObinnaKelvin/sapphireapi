@@ -9,6 +9,9 @@ const PatientSchema = new Schema ({
     patientNo: {
         type: Number
     },
+    title: {
+        type: String,
+    },
     firstName: {
         type: String,
         required: true
@@ -22,7 +25,7 @@ const PatientSchema = new Schema ({
         required: true
     },
     mobile: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
@@ -37,15 +40,22 @@ const PatientSchema = new Schema ({
         type: Date,
         required: true
     },
-    age: {
-        type: Number,
-        default: 20
-    },
+    // age: {
+    //     type: Number,
+    //     default: 20
+    // },
     maritalStatus: {
         type: String,
         required: true
     },
+    religion: {
+        type: String,
+        required: true
+    },
     address: {
+        type: String,
+    },
+    city: {
         type: String,
     },
     state: {
@@ -104,5 +114,20 @@ const PatientSchema = new Schema ({
         type: Date,
     }
 }, {timestamps: true})
+
+
+//Virtual property to calculate age dynamically
+PatientSchema.virtual('age').get(function() {
+    const today = new Date();
+    const birthdate = this.dateOfBirth;
+    const age = today.getFullYear() - birthdate.getFullYear();
+    const monthDiff = today.getMonth() = birthdate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+        return age - 1;
+    }
+
+    return age;
+})
 
 export default model("Patient", PatientSchema)

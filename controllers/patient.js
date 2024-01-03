@@ -140,7 +140,8 @@ export const createPatient = async (req, res) => {
 
 export const readPatient = async (req, res) => {
     try {
-        const patient = await Patient.findById(req.params.id)
+        // const patient = await Patient.findById(req.params.id)
+        const patient = await Patient.find({email: req.params.id})
         res.status(200).json(patient)
     } catch (error) {
         res.status(400).json(error);
@@ -165,7 +166,7 @@ export const updatePatient = async(req, res) => {
     try {
         const updated = await Patient.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true})
         res.status(200).json(updated)
-        console.log(`Incidence "${updated.incidence}" has now been updated! 🐞`)
+        console.log(`Patient "${updated.firstName}" has now been updated! 🐞`)
     } catch (error) {
         res.status(400).json({message: "cannot update Patient"});
     }
