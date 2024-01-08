@@ -13,6 +13,75 @@ export const createAppointment = async (req, res) => {
     //const newAppointment = new Appointment(req.body)
 
     try {
+
+        //CREATE PATIENT
+        //1. Check if any exists
+        //2. If exist set the new id
+        //3. Else if not exist, set newid =1
+        let newItemidPat;
+        const isExistLastItemPat = await Patient.find()//1.Check if any user exists
+        if(isExistLastItemPat[0] === undefined) {
+            newItemidPat = 1; //3. Else if not exist, set newuserid =1
+        }
+        else {
+            const lastItemIdPat = await Patient.find({}, {patientId: 1, _id:0}).sort({_id:-1}).limit(1)
+            newItemidPat = lastItemIdPat[0].patientId + 1;  //2. If exist set the newItem id
+        }
+        //Patient Registration number
+        let newPatientNo;
+        const isExistPatient = await Patient.find()//1.Check if any user exists
+        if(isExistPatient[0] === undefined) {
+            newPatientNo = 1011000000; //3. Else if not exist, set newuserid =1
+        }
+        else {
+            const lastPatientNo = await Patient.find({}, {patientNo: 1, _id:0}).sort({_id:-1}).limit(1)
+            newPatientNo = lastPatientNo[0].patientNo + 1;  //2. If exist set the newItem id
+        }
+
+
+        const newPatient = new Patient({
+            patientId: newItemidPat,
+            patientNo: newPatientNo,
+            firstName: req.body.firstname,
+            middleName: req.body.middlename,
+            lastName: req.body.lastname,
+            mobile: req.body.mobile,
+            email: req.body.email,
+            gender: req.body.gender,
+            dateOfBirth: req.body.dateOfBirth,
+            maritalStatus: req.body.maritalStatus,
+            address: req.body.address,
+            state: req.body.state,
+            country: req.body.country,
+            kinName: req.body.kinName,
+            kinPhone: req.body.kinPhone,
+            kinRelationship: req.body.kinRelationship,
+            kinAddress: req.body.kinAddress,
+            emergencyName: req.body.emergencyName,
+            emergencyPhone: req.body.emergencyPhone,
+            emergencyRelationship: req.body.emergencyRelationship,
+            emergencyAddress: req.body.emergencyAddress,
+            isFullyRegistered: req.body.isFullyRegistered,
+            payerId: req.body.payerId,
+            active: req.body.active,
+            encodedBy: req.body.encodedBy,
+            encodedDate: req.body.encodedDate,
+            lastUpdatedBy: req.body.lastUpdatedBy,
+            lastUpdatedDate: req.body.lastUpdatedDate
+        })
+
+        
+        const isExistPatientDB = await Patient.findOne({email: req.body.email})
+        if(!isExistPatientDB) {
+            await newPatient.save()
+            console.log(`New Patient "${newPatient.firstName}" has now been created!🙋‍♂️`)
+        }
+        else {
+            console.log(`Patient already exists 🙅‍♂️`)
+        }
+
+
+        //CREATE APPOINTMENT
         //1.Check if any exists
         //2. If exist set the new id
         //3. Else if not exist, set newid =1
@@ -54,6 +123,7 @@ export const createAppointment = async (req, res) => {
             referralTypeId: req.body.referralTypeId,
             referToDoctor: req.body.referToDoctor,
             authorizationNo: req.body.authorizationNo,
+            referenceNo: req.body.referenceNo,
             appointmentDate: req.body.appointmentDate,
             appointmentStatus: req.body.appointmentStatus,
             paymentStatus: req.body.paymentStatus,
@@ -74,9 +144,9 @@ export const createAppointment = async (req, res) => {
         //const savedAppointment = await newAppointment.save();
         await newAppointment.save()
         .then((output) => {
-            //console.log(output)
+            console.log(output)
             //sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId, output.paymentStatus)
+            //sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId, output.paymentStatus)
         })
         res.status(200).json(newAppointment)
         //res.status(200).json(savedAppointment)

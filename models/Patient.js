@@ -18,7 +18,7 @@ const PatientSchema = new Schema ({
     },
     middleName: {
         type: String,
-        required: true
+        //required: true
     },
     lastName: {
         type: String,
@@ -38,7 +38,7 @@ const PatientSchema = new Schema ({
     },
     dateOfBirth: {
         type: Date,
-        required: true
+        //required: true
     },
     // age: {
     //     type: Number,
@@ -46,11 +46,11 @@ const PatientSchema = new Schema ({
     // },
     maritalStatus: {
         type: String,
-        required: true
+        //required: true
     },
     religion: {
         type: String,
-        required: true
+        //required: true
     },
     address: {
         type: String,

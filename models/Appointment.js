@@ -65,6 +65,10 @@ const AppointmentSchema = new Schema ({
         type: Number,
         default: null
     },
+    referenceNo: {
+        type: String,
+        default: null
+    },
     service: {
         type: String,
     },
