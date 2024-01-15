@@ -5,7 +5,7 @@ import patientsRoute from '../routes/patient.js'
 import appointmentsRoute from '../routes/appointment.js'
 import referraltypesRoute from '../routes/referraltypes.js'
 import statusRoute from '../routes/status.js'
-import payerCategoryRoute from '../routes/payercategory.js'
+import payerCategoryRoute from '../routes/payerCategory.js'
 import payerRoute from '../routes/payer.js'
 import cors from 'cors';
 import authRoute from '../routes/auth.js'
