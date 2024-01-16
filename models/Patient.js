@@ -102,7 +102,7 @@ const PatientSchema = new Schema ({
         default: 1,
     },
     encodedBy: {
-        type: Number,
+        type: String,
     },
     encodedDate: {
         type: Date,
