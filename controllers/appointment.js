@@ -228,7 +228,7 @@ export const readAppointment = async (req, res) => {
 
 export const readAppointmentByEmail = async (req, res) => {
     try {
-        const appointment = await Appointment.find({email: req.params.id})
+        const appointment = await Appointment.find({email: req.params.id}).sort({createdAt:-1})
         res.status(200).json(appointment)
     } catch (error) {
         res.status(400).json(error);
@@ -240,6 +240,7 @@ export const readAppointmentByEmail = async (req, res) => {
 export const readAppointments = async(req, res) => {
     try {
         const appointments = await Appointment.find(req._id).sort({createdAt:-1})
+        //const appointments = await Appointment.find(req._id).sort({appointmentDate:-1})
         res.status(200).json(appointments)
     } catch (error) {
         res.status(400).json({message: "Cannot find Patients"});
