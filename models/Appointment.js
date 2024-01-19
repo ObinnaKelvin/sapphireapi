@@ -76,7 +76,8 @@ const AppointmentSchema = new Schema ({
         type: Number
     },
     appointmentDate: {
-        type: Date,
+        // type: Date,
+        type: String,
         required: true
     },
     appointmentStatus: {
@@ -100,7 +101,8 @@ const AppointmentSchema = new Schema ({
         //required: true
     },
     encodedDate: {
-        type: Date,
+        // type: Date,
+        type: String,
         required: true
     },
     lastUpdatedBy: {
