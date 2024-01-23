@@ -57,6 +57,9 @@ export const register = async (req, res) => {
 
 export const login = async(req, res) => {
     try {
+        
+        console.log(process.env.OTP_EMAIL);
+        console.log(process.env.OTP_PASSWORD);
         const user = await User.findOne({email: req.body.email})
         //console.log(user)
 
@@ -233,6 +236,7 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         port: 587,
+        secure: STARTTLS,
         // service: "gmail",
        auth: {
         user: OTP_EMAIL,
@@ -245,7 +249,7 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
         //test transporter
         transporter.verify((error, success) => {
             if(error){
-                console.log("Transporter Error", error)
+                console.log("Transporter Error:", error)
             } else {
                 console.log(success)
             }
