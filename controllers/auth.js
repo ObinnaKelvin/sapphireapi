@@ -236,7 +236,6 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         port: 587,
-        secure: STARTTLS,
         // service: "gmail",
        auth: {
         user: OTP_EMAIL,
