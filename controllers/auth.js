@@ -65,7 +65,7 @@ export const login = async(req, res) => {
         const isPasswordCorrect = await bcrypt.compareSync(req.body.password, user.password)
         if (!isPasswordCorrect) return res.status(404).json("User or password incorrect 🙅‍♂️")
 
-        const token = jwt.sign({ id:user._id, isAdmin:user.isAdmin }, process.env.JWT, {expiresIn: '1d'})  //'1d' means Token will expire in one day
+        const token = jwt.sign({ id:user._id, isAdmin:user.isAdmin }, process.env.JWT, {expiresIn: '900'})  //'1d' means Token will expire in one day....//900milliseconds = 60secons x 15mins...expires in 15mins or 900 milliseconds.
         // I generated my secret key above using 
         //openssl rand -base64 32
 
