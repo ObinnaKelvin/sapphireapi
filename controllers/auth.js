@@ -57,9 +57,6 @@ export const register = async (req, res) => {
 
 export const login = async(req, res) => {
     try {
-        
-        console.log(process.env.OTP_EMAIL);
-        console.log(process.env.OTP_PASSWORD);
         const user = await User.findOne({email: req.body.email})
         //console.log(user)
 
@@ -98,6 +95,9 @@ export const login = async(req, res) => {
             sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
         });
         //return res.status(200).json("OTP sent successfully");
+        
+        console.log(process.env.OTP_EMAIL);
+        console.log(process.env.OTP_PASSWORD);
         console.log("OTP sent successfully");
 
 
