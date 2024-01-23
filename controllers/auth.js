@@ -238,8 +238,10 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
         port: 587,
         // service: "gmail",
        auth: {
-        user: OTP_EMAIL,
-        pass: OTP_PASSWORD,
+        // user: OTP_EMAIL,
+        // pass: OTP_PASSWORD,
+        user: "okereobinna11@outlook.com",
+        pass: "geek@2018",
        }
     });
 
