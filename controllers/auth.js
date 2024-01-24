@@ -239,10 +239,8 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
         secure: false,
         // service: "gmail",
        auth: {
-        // user: OTP_EMAIL,
-        // pass: OTP_PASSWORD,
-        user: "okereobinna11@outlook.com",
-        pass: "geek@2018",
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
        }
     });
 
