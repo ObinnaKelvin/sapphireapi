@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import Otp from '../models/Otp.js';
 import _ from 'lodash'
 import nodemailer from 'nodemailer'
+import twilio from 'twilio';
 
 
 
@@ -166,6 +167,40 @@ export const generateNewOTP = async (req, res) => {
     }
 }
 
+export const generateNewOTPViaSms = async (req, res) => {
+
+    try {
+        //const user = await User.find({email: req.body.email})
+
+        //Here comes the OTP authentication
+        const OTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
+        });
+
+        const email = req.body.email;
+        const phone = req.body.phone;
+        console.log(OTP);
+
+        const otp = new Otp({ email: email, phone: phone, otp: OTP})
+        const salt = await bcrypt.genSalt(10);
+        otp.otp = await bcrypt.hash(otp.otp, salt);
+
+        const result = await otp.save()
+        // console.log(result)
+        .then((output) => {
+            const receiptPhone = output.phone
+            //const receiptEmail = output.email
+            //sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
+            sendLoginSmsOtp(receiptPhone, OTP) //Sends SMS here
+        });
+        console.log("New OTP SMS sent successfully");
+        return res.status(200).json("New OTP SMS sent successfully");
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const generateNewOTPForPasswordReset = async (req, res) => {
 
     try {
@@ -289,6 +324,26 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
             //     message: error.message,
             // })
         // throw error;
+    }
+
+}
+
+export const sendLoginSmsOtp = async(phoneParams, otpParams) => {
+
+    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
+    const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+
+    try {   
+
+        const smsResponse = await client.messages.create({
+            body: `Your verification code is >${otpParams}. The verification code will be valid for 10 minutes. Please do not share this code with anyone.`,
+            from: '+15103808362',
+            to: `${phoneParams}`
+        });
+
+        console.log(`Message sent to ${to}: ${smsResponse}`)
+    } catch (error) {
+        console.log(error)
     }
 
 }
