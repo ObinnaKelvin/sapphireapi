@@ -7,7 +7,8 @@ import Otp from '../models/Otp.js';
 import _ from 'lodash'
 import nodemailer from 'nodemailer'
 import twilio from 'twilio';
-
+// import Termii from 'termii'
+import request from 'request';
 
 
 export const register = async (req, res) => {
@@ -266,18 +267,31 @@ export const resetPassword = async (req, res) => {
 
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
-    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp-mail.outlook.com",
+    //     port: 587,
+    //     secure: false,
+    //    auth: {
+    //     user: OTP_EMAIL,
+    //     pass: OTP_PASSWORD,
+    //    }
+    // });
+
+    const { MAILGUN_USERNAME, MAILGUN_PASSWORD } = process.env;
     
     let transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
+        host: "smtp.mailgun.org",
         port: 587,
-        secure: false,
+        // secure: false,
         // service: "gmail",
        auth: {
-        user: OTP_EMAIL,
-        pass: OTP_PASSWORD,
+        user: MAILGUN_USERNAME,
+        pass: MAILGUN_PASSWORD,
        }
     });
+
 
 
     try {   
@@ -330,21 +344,77 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
 export const sendLoginSmsOtp = async(phoneParams, otpParams) => {
 
-    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
-    const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+     //***************TWILIO
 
-    try {   
+    // const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
+    // const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-        const smsResponse = await client.messages.create({
-            body: `Your verification code is >${otpParams}. The verification code will be valid for 10 minutes. Please do not share this code with anyone.`,
-            from: '+15103808362',
-            to: `${phoneParams}`
-        });
+    // try {   
 
-        console.log(`Message sent to ${to}: ${smsResponse}`)
-    } catch (error) {
-        console.log(error)
-    }
+    //     const smsResponse = await client.messages.create({
+    //         body: `Your verification code is >${otpParams}. The verification code will be valid for 10 minutes. Please do not share this code with anyone.`,
+    //         from: '+15103808362',
+    //         to: `${phoneParams}`
+    //     });
+
+    //     console.log(`Message sent to ${to}: ${smsResponse}`)
+    // } catch (error) {
+    //     console.log(error)
+    // }
+
+    //***************TERMII
+
+    const { TERMII_API, TERMII_SECRET, TERMII_SENDER_ID } = process.env;
+
+    var data = {
+        "to":`${phoneParams}`,
+        "from":`${TERMII_SENDER_ID}`,
+        "sms":`Your verification code is >${otpParams}. The verification code will be valid for 10 minutes. Please do not share this code with anyone.`,
+        "type":"plain",
+        "api_key":`${TERMII_API}`,
+        "channel":"generic",
+    };
+
+    var options = {
+    'method': 'POST',
+    'url': 'https://api.ng.termii.com/api/sms/send',
+    'headers': {
+    'Content-Type': ['application/json', 'application/json']
+    },
+    
+    body: JSON.stringify(data)
+
+    };
+
+    request(options, function (error, response) { 
+    if (error) throw new Error(error);
+    console.log(response.body);
+    });
+
+    //***************SENDCHAMP
+    // var options = {
+    //     'method': 'POST',
+    //     'url': 'https://api.sendchamp.com/api/v1/sms/send',
+    //     'headers': {
+    //         'Accept': 'application/json',
+    //         'Authorization': 'Bearer ACCESS_KEY',
+    //         'Content-Type': 'application/json'
+    //     },
+
+    //     body: JSON.stringify({
+    //         "to":[`${phoneParams}`],
+    //         "message":`Your verification code is >${otpParams}. The verification code will be valid for 10 minutes. Please do not share this code with anyone.`,
+    //         "sender_name":"Kuda", 
+    //         "route":"non_dnd"
+    //     })
+    
+    // };
+    // request(options, function (error, response) {
+    // if (error) throw new Error(error);
+    // console.log(response.body);
+    // }); 
+    
+
 
 }
 
