@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import Otp from '../models/Otp.js';
 import _ from 'lodash'
 import nodemailer from 'nodemailer'
+import mg from 'nodemailer-mailgun-transport';
 import twilio from 'twilio';
 // import Termii from 'termii'
 import request from 'request';
@@ -267,33 +268,31 @@ export const resetPassword = async (req, res) => {
 
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
-    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    let transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
-        port: 587,
-        secure: false,
-       auth: {
-        user: `${OTP_EMAIL}`,
-        pass: `${OTP_PASSWORD}`,
-       }
-    });
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp-mail.outlook.com",
+    //     port: 587,
+    //     // secure: false,
+    //    auth: {
+    //     user: `${OTP_EMAIL}`,
+    //     pass: `${OTP_PASSWORD}`,
+    //    }
+    // });
 
 
     //MAILGUN
 
-    // const { MAILGUN_USERNAME, MAILGUN_PASSWORD } = process.env;
+    const { MAILGUN_DOMAIN, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp.mailgun.org",
-    //     port: 587,
-    //     // secure: false,
-    //     // service: "gmail",
-    //    auth: {
-    //     user: MAILGUN_USERNAME,
-    //     pass: MAILGUN_PASSWORD,
-    //    }
-    // });
+    const auth = {
+        auth: {
+          api_key: MAILGUN_API_KEY,
+          domain: MAILGUN_DOMAIN
+        }
+    }    
+
+    let transporter = nodemailer.createTransport(mg(auth));
 
 
 
