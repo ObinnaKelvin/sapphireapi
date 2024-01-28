@@ -308,7 +308,7 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
         const mailOptions = {
             // from: OTP_EMAIL,
-            from: `Sapphire ${OTP_EMAIL}`,
+            from: `Sapphire ${MAILGUN_DOMAIN}`,
             to: emailParams,
             subject: "Sapphire Login Verification 🔒",
             html:   `<div style="width: 100%">
