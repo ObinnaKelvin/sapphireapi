@@ -274,8 +274,8 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
         port: 587,
         secure: false,
        auth: {
-        user: OTP_EMAIL,
-        pass: OTP_PASSWORD,
+        user: `${OTP_EMAIL}`,
+        pass: `${OTP_PASSWORD}`,
        }
     });
 
@@ -428,11 +428,11 @@ export const sendPasswordResetOtp = async(emailParams, otpParams) => {
     
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
-        // port: 587,
+        port: 587,
         // service: "gmail",
-        port: 465,
-        secure: true,
-        
+        // port: 465,
+        // secure: true,
+
        auth: {
         user: OTP_EMAIL,
         pass: OTP_PASSWORD,
