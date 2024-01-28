@@ -283,7 +283,7 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
     //MAILGUN
 
-    const { MAILGUN_DOMAIN, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
     const auth = {
         auth: {
@@ -308,7 +308,8 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
         const mailOptions = {
             // from: OTP_EMAIL,
-            from: `Sapphire ${MAILGUN_DOMAIN}`,
+            // from: `Sapphire ${MAILGUN_DOMAIN}`,
+            from: `${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Sapphire Login Verification 🔒",
             html:   `<div style="width: 100%">
