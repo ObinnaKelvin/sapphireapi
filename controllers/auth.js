@@ -267,42 +267,45 @@ export const resetPassword = async (req, res) => {
 
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
-    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
-    
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp-mail.outlook.com",
-    //     port: 587,
-    //     secure: false,
-    //    auth: {
-    //     user: OTP_EMAIL,
-    //     pass: OTP_PASSWORD,
-    //    }
-    // });
-
-    const { MAILGUN_USERNAME, MAILGUN_PASSWORD } = process.env;
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
     let transporter = nodemailer.createTransport({
-        host: "smtp.mailgun.org",
+        host: "smtp-mail.outlook.com",
         port: 587,
-        // secure: false,
-        // service: "gmail",
+        secure: false,
        auth: {
-        user: MAILGUN_USERNAME,
-        pass: MAILGUN_PASSWORD,
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
        }
     });
+
+
+    //MAILGUN
+
+    // const { MAILGUN_USERNAME, MAILGUN_PASSWORD } = process.env;
+    
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp.mailgun.org",
+    //     port: 587,
+    //     // secure: false,
+    //     // service: "gmail",
+    //    auth: {
+    //     user: MAILGUN_USERNAME,
+    //     pass: MAILGUN_PASSWORD,
+    //    }
+    // });
 
 
 
     try {   
         //test transporter
-        transporter.verify((error, success) => {
-            if(error){
-                console.log("Transporter Error:", error)
-            } else {
-                console.log(success)
-            }
-        });
+        // transporter.verify((error, success) => {
+        //     if(error){
+        //         console.log("Transporter Error:", error)
+        //     } else {
+        //         console.log(success)
+        //     }
+        // });
 
         const mailOptions = {
             // from: OTP_EMAIL,
