@@ -268,6 +268,7 @@ export const resetPassword = async (req, res) => {
 
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
+    // OUTLOOK 
     // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
     // let transporter = nodemailer.createTransport({
@@ -424,35 +425,48 @@ export const sendLoginSmsOtp = async(phoneParams, otpParams) => {
 
 export const sendPasswordResetOtp = async(emailParams, otpParams) => {
 
-    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    // OUTLOOK 
+    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    let transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
-        port: 587,
-        // service: "gmail",
-        // port: 465,
-        // secure: true,
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp-mail.outlook.com",
+    //     port: 587,
 
-       auth: {
-        user: OTP_EMAIL,
-        pass: OTP_PASSWORD,
-       }
-    });
+    //    auth: {
+    //     user: OTP_EMAIL,
+    //     pass: OTP_PASSWORD,
+    //    }
+    // });
+
+
+    //MAILGUN
+
+    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    
+    const auth = {
+        auth: {
+          api_key: MAILGUN_API_KEY,
+          domain: MAILGUN_DOMAIN
+        }
+    }    
+
+    let transporter = nodemailer.createTransport(mg(auth));
 
 
     try {   
         //test transporter
-        transporter.verify((error, success) => {
-            if(error){
-                console.log("Transporter Error", error)
-            } else {
-                console.log(success)
-            }
-        });
+        // transporter.verify((error, success) => {
+        //     if(error){
+        //         console.log("Transporter Error", error)
+        //     } else {
+        //         console.log(success)
+        //     }
+        // });
 
         const mailOptions = {
             // from: OTP_EMAIL,
-            from: `Sapphire ${OTP_EMAIL}`,
+            // from: `Sapphire ${OTP_EMAIL}`,
+            from: `${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Sapphire Password Reset Verification 🔒",
             html:   `<div style="width: 100%">
