@@ -99,8 +99,55 @@ export const login = async(req, res) => {
         });
         //return res.status(200).json("OTP sent successfully");
         
-        console.log(process.env.OTP_EMAIL);
-        console.log(process.env.OTP_PASSWORD);
+        console.log("OTP sent successfully");
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const staffLogin = async(req, res) => {
+    try {
+        const user = await User.findOne({email: req.body.email, role: { $ne: "patient"}})
+        //console.log(user)
+
+        if(!user) return res.status(404).json("Unauthorized access is prohibited 🙅‍♂️")
+
+        const isPasswordCorrect = await bcrypt.compareSync(req.body.password, user.password)
+        if (!isPasswordCorrect) return res.status(404).json("User or password incorrect 🙅‍♂️")
+
+        const token = jwt.sign({ id:user._id, isAdmin:user.isAdmin }, process.env.JWT, {expiresIn: '900'})  //'1d' means Token will expire in one day....//900milliseconds = 60secons x 15mins...expires in 15mins or 900 milliseconds.
+        // I generated my secret key above using 
+        //openssl rand -base64 32
+
+        const {password, isAdmin, ...otherDetails} = user._doc
+        res.cookie("access_token", token, {
+            httpOnly: true,
+        })
+        .status(200).json({details: {...otherDetails}, isAdmin})
+        console.log(`${user._doc.firstname} logged in successfully!🙋‍♂️`)
+
+        //Here comes the OTP authentication
+        const OTP = otpGenerator.generate(6, {
+            digits: true, alphabets: false, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false
+        });
+
+        const email = req.body.email;
+        console.log(OTP);
+
+        const otp = new Otp({ email: email, otp: OTP})
+        const salt = await bcrypt.genSalt(10);
+        otp.otp = await bcrypt.hash(otp.otp, salt);
+
+        const result = await otp.save()
+        // console.log(result)
+        .then((output) => {
+            const receiptEmail = output.email
+            sendLoginEmailOtp(receiptEmail, OTP); //Sends email here
+        });
+        //return res.status(200).json("OTP sent successfully");
+        
         console.log("OTP sent successfully");
 
 

@@ -1,10 +1,11 @@
 import express from 'express';
-import { login, register, verifyOtp, generateNewOTP, generateNewOTPForPasswordReset, resetPassword, generateNewOTPViaSms} from '../controllers/auth.js';
+import { login, staffLogin, register, verifyOtp, generateNewOTP, generateNewOTPForPasswordReset, resetPassword, generateNewOTPViaSms} from '../controllers/auth.js';
 
 const router = express.Router();
 
 router.post('/register', register)
 router.post('/login', login)
+router.post('/slogin', staffLogin)
 router.post('/login/verify', verifyOtp)
 router.post('/login/generate-new', generateNewOTP)
 router.post('/login/generate-new-sms', generateNewOTPViaSms)
