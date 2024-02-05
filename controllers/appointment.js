@@ -298,7 +298,7 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
             // from: `Sapphire ${OTP_EMAIL}`,
             from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
-            subject: "Welcome On Board! 🎉🎉",
+            subject: "Welcome On Board 🎉🎉",
             html:   `<div style="width: 100%">
                     </div>
                     <p><em>Hi <span style="color: #0C4CAC; font-size: 22px"><b>${firstnameParams}</b></span></em>,</p>
@@ -316,6 +316,7 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
                     </div>
                     <br/>
                     <p>Thanks,
+                    <br/>
                     The Sapphire Team.
                     </p>
                     <br/><br/><br/>
@@ -392,7 +393,7 @@ export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, 
             // from: `Sapphire ${OTP_EMAIL}`,
             from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
-            subject: "Appointment Booked! 📅",
+            subject: "Appointment Booked 📅",
             html:   `<div style="width: 100%; height: 30px; display: flex; align-items: center; justify-content:center;">
                         <img style="width: 20px; height: 20px; margin: 0px auto 0px auto" src="https://firebasestorage.googleapis.com/v0/b/sapphire-15128.appspot.com/o/pages%2Flogo.PNG?alt=media&token=f001869a-350c-4246-aeec-6ae23f4209bc" />
                     </div>
