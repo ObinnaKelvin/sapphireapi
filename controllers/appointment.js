@@ -254,31 +254,30 @@ export const readAppointments = async(req, res) => {
 export const sendAccountCreationEmail = async(emailParams, firstnameParams, passwordParams) => {
     
     //OUTLOOK
-    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp-mail.outlook.com",
-    //     port: 587,
-    //     // service: "gmail",
-    //    auth: {
-    //     user: OTP_EMAIL,
-    //     pass: OTP_PASSWORD,
-    //    }
-    // });
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        // service: "gmail",
+       auth: {
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
+       }
+    });
 
 
     //MAILGUN
 
-    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    // const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
-    const auth = {
-        auth: {
-          api_key: MAILGUN_API_KEY,
-          domain: MAILGUN_DOMAIN
-        }
-    }    
-
-    let transporter = nodemailer.createTransport(mg(auth));
+    // const auth = {
+    //     auth: {
+    //       api_key: MAILGUN_API_KEY,
+    //       domain: MAILGUN_DOMAIN
+    //     }
+    // }  
+    // let transporter = nodemailer.createTransport(mg(auth));
 
 
 
@@ -294,9 +293,9 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
         });
 
         const mailOptions = {
-            // from: OTP_EMAIL,
+            from: OTP_EMAIL,
             // from: `Sapphire ${OTP_EMAIL}`,
-            from: `Sapphire ${MAILGUN_FROM}`,
+            // from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Welcome On Board 🎉🎉",
             html:   `<div style="width: 100%">
@@ -351,31 +350,31 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
 export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, lastnameParams, dateParams, serviceParams, costParams, appointmentIdParams, statusParams) => {
 
     // OUTLOOK
-    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp-mail.outlook.com",
-    //     port: 587,
-    //     // service: "gmail",
-    //    auth: {
-    //     user: OTP_EMAIL,
-    //     pass: OTP_PASSWORD,
-    //    }
-    // });
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        // service: "gmail",
+       auth: {
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
+       }
+    });
 
 
     //MAILGUN
 
-    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    // const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
-    const auth = {
-        auth: {
-          api_key: MAILGUN_API_KEY,
-          domain: MAILGUN_DOMAIN
-        }
-    }    
+    // const auth = {
+    //     auth: {
+    //       api_key: MAILGUN_API_KEY,
+    //       domain: MAILGUN_DOMAIN
+    //     }
+    // }    
 
-    let transporter = nodemailer.createTransport(mg(auth));
+    // let transporter = nodemailer.createTransport(mg(auth));
 
 
     try {   
@@ -389,9 +388,9 @@ export const sendAppointmentCreationEmail = async(emailParams, firstnameParams, 
         });
 
         const mailOptions = {
-            // from: OTP_EMAIL,
+            from: OTP_EMAIL,
             // from: `Sapphire ${OTP_EMAIL}`,
-            from: `Sapphire ${MAILGUN_FROM}`,
+            // from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Appointment Booked 📅",
             html:   `<div style="width: 100%; height: 30px; display: flex; align-items: center; justify-content:center;">

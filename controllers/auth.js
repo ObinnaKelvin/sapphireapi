@@ -365,6 +365,10 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
                     <p>Your verification code</p>
                     <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
                     <p>The verification code will be valid for <b>10 minutes</b>. Please do not share this code with anyone.</p>
+                    <br/>
+                    The Sapphire Team.
+                    </p>
+                    <br/><br/><br/>
                     <em>This is an automated message, please do not reply.</em>
                     `
         }
@@ -473,31 +477,30 @@ export const sendLoginSmsOtp = async(phoneParams, otpParams) => {
 export const sendPasswordResetOtp = async(emailParams, otpParams) => {
 
     // OUTLOOK 
-    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp-mail.outlook.com",
-    //     port: 587,
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
 
-    //    auth: {
-    //     user: OTP_EMAIL,
-    //     pass: OTP_PASSWORD,
-    //    }
-    // });
+       auth: {
+        user: OTP_EMAIL,
+        pass: OTP_PASSWORD,
+       }
+    });
 
 
     //MAILGUN
 
-    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    // const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
-    const auth = {
-        auth: {
-          api_key: MAILGUN_API_KEY,
-          domain: MAILGUN_DOMAIN
-        }
-    }    
-
-    let transporter = nodemailer.createTransport(mg(auth));
+    // const auth = {
+    //     auth: {
+    //       api_key: MAILGUN_API_KEY,
+    //       domain: MAILGUN_DOMAIN
+    //     }
+    // }   
+    // let transporter = nodemailer.createTransport(mg(auth));
 
 
     try {   
@@ -511,9 +514,9 @@ export const sendPasswordResetOtp = async(emailParams, otpParams) => {
         // });
 
         const mailOptions = {
-            // from: OTP_EMAIL,
+            from: OTP_EMAIL,
             // from: `Sapphire ${OTP_EMAIL}`,
-            from: `Sapphire ${MAILGUN_FROM}`,
+            // from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Sapphire Password Reset Verification 🔒",
             html:   `<div style="width: 100%">
@@ -522,6 +525,10 @@ export const sendPasswordResetOtp = async(emailParams, otpParams) => {
                     <p style="color: #0C4CAC; font-size: 24px"><b>${otpParams}</b></p>
                     <p>The verification code will be valid for <b>10 minutes</b>. Please do not share this code with anyone.</p>
                     <p>If you didn't mean to reset your password, then you can just ignore this email.</p>
+                    <br/>
+                    The Sapphire Team.
+                    </p>
+                    <br/><br/><br/>
                     <em>This is an automated message, please do not reply.</em>
                     `
         }
