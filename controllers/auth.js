@@ -316,31 +316,31 @@ export const resetPassword = async (req, res) => {
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
     // OUTLOOK 
-    // const { OTP_EMAIL, OTP_PASSWORD } = process.env;
+    const { OTP_EMAIL, OTP_PASSWORD } = process.env;
     
-    // let transporter = nodemailer.createTransport({
-    //     host: "smtp-mail.outlook.com",
-    //     port: 587,
-    //     // secure: false,
-    //    auth: {
-    //     user: `${OTP_EMAIL}`,
-    //     pass: `${OTP_PASSWORD}`,
-    //    }
-    // });
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        // secure: false,
+       auth: {
+        user: `${OTP_EMAIL}`,
+        pass: `${OTP_PASSWORD}`,
+       }
+    });
 
 
     //MAILGUN
 
-    const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
+    // const { MAILGUN_DOMAIN, MAILGUN_FROM, MAILGUN_PASSWORD, MAILGUN_API_KEY } = process.env;
     
-    const auth = {
-        auth: {
-          api_key: MAILGUN_API_KEY,
-          domain: MAILGUN_DOMAIN
-        }
-    }    
+    // const auth = {
+    //     auth: {
+    //       api_key: MAILGUN_API_KEY,
+    //       domain: MAILGUN_DOMAIN
+    //     }
+    // }    
 
-    let transporter = nodemailer.createTransport(mg(auth));
+    // let transporter = nodemailer.createTransport(mg(auth));
 
 
 
@@ -355,9 +355,9 @@ export const sendLoginEmailOtp = async(emailParams, otpParams) => {
         // });
 
         const mailOptions = {
-            // from: OTP_EMAIL,
-            // from: `Sapphire ${MAILGUN_DOMAIN}`,
-            from: `${MAILGUN_FROM}`,
+            from: OTP_EMAIL,
+            //from: `Sapphire ${MAILGUN_DOMAIN}`,
+            //from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Sapphire Login Verification 🔒",
             html:   `<div style="width: 100%">
@@ -513,7 +513,7 @@ export const sendPasswordResetOtp = async(emailParams, otpParams) => {
         const mailOptions = {
             // from: OTP_EMAIL,
             // from: `Sapphire ${OTP_EMAIL}`,
-            from: `${MAILGUN_FROM}`,
+            from: `Sapphire ${MAILGUN_FROM}`,
             to: emailParams,
             subject: "Sapphire Password Reset Verification 🔒",
             html:   `<div style="width: 100%">
