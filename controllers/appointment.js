@@ -309,7 +309,7 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
                     <br/>
                     <em>We advice that you change your password immediately.</em><br/><br/>
                     <div style="width: 100%; display: flex; align-items: center; margin: 0px auto 0px auto;">
-                        <a href="https://sapphire-partners.com">
+                        <a href="https://sapphire-partners.vercel.app">
                             <div style="width: 100px; background-color: #0C4CAC; color: #ffffff; padding:10px; text-align:center; margin: 0px auto 0px auto; cursor: pointer">Login</div>
                         </a>
                     </div>
