@@ -56,7 +56,7 @@ app.use("/api/service", serviceRoute);
 //Socket Setup
 const io = new Server({
     cors: {
-        // origin: "http://localhost:3000",
+        origin: "*",
         methods: ['GET', 'POST'],
     }
  });
@@ -71,6 +71,10 @@ io.on("connection", (socket) => {
             patientName, bookindDate, service
         })
     })
+
+    socket.on("new_booking", (data) => {
+        console.log("New booking confirmed", data.message)
+    });
 
     socket.on("disconnect", () => {
         console.log("Someone has left");
