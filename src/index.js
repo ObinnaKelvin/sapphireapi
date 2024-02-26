@@ -12,6 +12,7 @@ import authRoute from '../routes/auth.js'
 import userRoute from '../routes/user.js'
 import tariffRoute from '../routes/tariff.js'
 import serviceRoute from '../routes/service.js'
+import { Server } from "socket.io";
 
 
 const app = express();
@@ -52,10 +53,24 @@ app.use("/api/user", userRoute);
 app.use("/api/tariff", tariffRoute);
 app.use("/api/service", serviceRoute);
 
+//Socket Setup
+const io = new Server({
+    cors: {
+        origin: "http://localhost:3000"
+    }
+ });
+
+
 
 const PORT = process.env.PORT || 9000;
+const SOCKETPORT = 9001;
 
 app.listen(PORT, ()=> {
     connect()
     console.log(`🚀 Server listening on port: ${PORT} 🚀`)
+})
+
+
+ io.listen(SOCKETPORT, ()=> {
+    console.log(`🔌 Socket Server listening on port: ${PORT} 🔌`)
 })
