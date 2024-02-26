@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
 
 
 const PORT = process.env.PORT || 9000;
-const SOCKETPORT = process.env.PORT || 9001;
+const SOCKETPORT = 9001;
 
 app.listen(PORT, ()=> {
     connect()
