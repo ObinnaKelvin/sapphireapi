@@ -56,7 +56,7 @@ app.use("/api/service", serviceRoute);
 //Socket Setup
 const io = new Server({
     cors: {
-        origin: "http://localhost:3000",
+        // origin: "http://localhost:3000",
         methods: ['GET', 'POST'],
     }
  });
