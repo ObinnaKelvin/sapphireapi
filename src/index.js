@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
 
 
 const PORT = process.env.PORT || 9000;
-const SOCKETPORT = 9001;
+const SOCKETPORT = process.env.PORT || 9001;
 
 app.listen(PORT, ()=> {
     connect()
@@ -88,5 +88,5 @@ app.listen(PORT, ()=> {
 
 
  io.listen(SOCKETPORT, ()=> {
-    console.log(`🔌 Socket Server listening on port: ${PORT} 🔌`)
+    console.log(`🔌 Socket Server listening on port: ${SOCKETPORT} 🔌`)
 })
