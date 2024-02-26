@@ -56,13 +56,15 @@ app.use("/api/service", serviceRoute);
 //Socket Setup
 const io = new Server({
     cors: {
-        origin: "http://localhost:3000"
+        origin: "http://localhost:3000",
+        methods: ['GET', 'POST'],
     }
  });
 
+
  
 io.on("connection", (socket) => {
-    console.log("Someone has just connected")
+    console.log(`Someone has just connected ${socket.id}`)
 
     socket.on("sendNotification", ({patientName, bookindDate, service}) => {
         io.emit("getNotification", {
@@ -79,7 +81,7 @@ io.on("connection", (socket) => {
 
 
 const PORT = process.env.PORT || 9000;
-const SOCKETPORT = 9001;
+//const SOCKETPORT = 9001;
 
 app.listen(PORT, ()=> {
     connect()
@@ -87,6 +89,6 @@ app.listen(PORT, ()=> {
 })
 
 
- io.listen(SOCKETPORT, ()=> {
-    console.log(`🔌 Socket Server listening on port: ${SOCKETPORT} 🔌`)
-})
+//  io.listen(SOCKETPORT, ()=> {
+//     console.log(`🔌 Socket Server listening on port: ${SOCKETPORT} 🔌`)
+// })
