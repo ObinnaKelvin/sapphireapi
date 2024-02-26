@@ -60,6 +60,22 @@ const io = new Server({
     }
  });
 
+ 
+io.on("connection", (socket) => {
+    console.log("Someone has just connected")
+
+    socket.on("sendNotification", ({patientName, bookindDate, service}) => {
+        io.emit("getNotification", {
+            patientName, bookindDate, service
+        })
+    })
+
+    socket.on("disconnect", () => {
+        console.log("Someone has left");
+    })
+});
+
+
 
 
 const PORT = process.env.PORT || 9000;
