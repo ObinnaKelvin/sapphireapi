@@ -12,6 +12,8 @@ import authRoute from '../routes/auth.js'
 import userRoute from '../routes/user.js'
 import tariffRoute from '../routes/tariff.js'
 import serviceRoute from '../routes/service.js'
+import notificationsRoute from '../routes/notifications.js'
+import notificationsByUserRoute from '../routes/notificationsByUser.js'
 import { Server } from "socket.io";
 
 
@@ -52,6 +54,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/tariff", tariffRoute);
 app.use("/api/service", serviceRoute);
+app.use("/api/notifications", notificationsRoute);
+app.use("/api/notificationsByuser", notificationsByUserRoute);
 
 //Socket Setup
 const io = new Server({
