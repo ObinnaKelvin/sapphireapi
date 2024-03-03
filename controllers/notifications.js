@@ -90,10 +90,10 @@ export const readNotification = async (req, res) => {
 
 export const readNotifications = async(req, res) => {
     try {
-        const patients = await Notifications.find(req._id).sort({createdAt:-1})
-        res.status(200).json(patients)
+        const notifications = await Notifications.find(req._id).sort({createdAt:-1})
+        res.status(200).json(notifications)
     } catch (error) {
-        res.status(400).json({message: "Cannot find Patients"});
+        res.status(400).json({message: "Cannot find notifications"});
     }
 }
 
