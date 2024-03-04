@@ -15,8 +15,7 @@ const NotificationsSchema = new Schema ({
     },
     type: {
         type: String,
-        default: "alert",
-        default: null
+        default: "Appointment"
     },
     destination: {
         type: String,
