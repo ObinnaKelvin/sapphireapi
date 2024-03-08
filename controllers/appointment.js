@@ -5,6 +5,7 @@ import otpGenerator from 'otp-generator';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer'
 import mg from 'nodemailer-mailgun-transport';
+import { formatDate } from '../utils/formatDate.js'
 
 
 //CREATE
@@ -235,6 +236,23 @@ export const readAppointmentByEmail = async (req, res) => {
         res.status(400).json(error);
     }
 }
+
+
+//READ BY EMAIL, APPOINTMENT DATE >= TODAY
+
+export const readAppointmentByEmailByAppointmentDateGTEToday = async (req, res) => {
+    try {
+        // const today = formatDate(new Date())
+        const today = new Date().toLocaleDateString('sv-SE')
+        //console.log(today)
+        const appointment = await Appointment.find({email: req.params.id, appointmentDate: {$gte: today}}).sort({appointmentDate:-1})
+        //const appointment = await Appointment.find({appointmentDate: {$gte: today}}).sort({createdAt:-1})
+       res.status(200).json(appointment)
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
 
 //READ ALL
 
