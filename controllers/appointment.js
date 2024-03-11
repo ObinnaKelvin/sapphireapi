@@ -230,7 +230,7 @@ export const readAppointment = async (req, res) => {
 
 export const readAppointmentByEmail = async (req, res) => {
     try {
-        const appointment = await Appointment.find({email: req.params.id}).sort({createdAt:-1})
+        const appointment = await Appointment.find({email: req.params.id, active: 1}).sort({createdAt:-1})
         res.status(200).json(appointment)
     } catch (error) {
         res.status(400).json(error);
@@ -245,7 +245,7 @@ export const readAppointmentByEmailByAppointmentDateGTEToday = async (req, res) 
         // const today = formatDate(new Date())
         const today = new Date().toLocaleDateString('sv-SE')
         //console.log(today)
-        const appointment = await Appointment.find({email: req.params.id, appointmentDate: {$gte: today}}).sort({appointmentDate:-1})
+        const appointment = await Appointment.find({email: req.params.id, appointmentDate: {$gte: today}, active: 1}).sort({appointmentDate:-1})
         //const appointment = await Appointment.find({appointmentDate: {$gte: today}}).sort({createdAt:-1})
        res.status(200).json(appointment)
     } catch (error) {
