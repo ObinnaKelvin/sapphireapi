@@ -253,6 +253,21 @@ export const readAppointmentByEmailByAppointmentDateGTEToday = async (req, res) 
     }
 }
 
+//READ BY EMAIL, APPOINTMENT DATE < TODAY
+
+export const readAppointmentByEmailByAppointmentDateLTToday = async (req, res) => {
+    try {
+        // const today = formatDate(new Date())
+        const today = new Date().toLocaleDateString('sv-SE')
+        //console.log(today)
+        const appointment = await Appointment.find({email: req.params.id, appointmentDate: {$lt: today}, active: 1}).sort({appointmentDate:-1})
+        //const appointment = await Appointment.find({appointmentDate: {$gte: today}}).sort({createdAt:-1})
+       res.status(200).json(appointment)
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
 
 //READ ALL
 

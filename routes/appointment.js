@@ -1,5 +1,5 @@
 import express from "express";
-import { createAppointment, readAppointment, readAppointmentByEmail, readAppointmentByEmailByAppointmentDateGTEToday, readAppointments } from '../controllers/appointment.js';
+import { createAppointment, readAppointment, readAppointmentByEmail, readAppointmentByEmailByAppointmentDateGTEToday, readAppointmentByEmailByAppointmentDateLTToday, readAppointments } from '../controllers/appointment.js';
 
 const router = express.Router();
 
@@ -13,7 +13,10 @@ router.get('/find/:id', readAppointment)
 router.get('/findByEmail/:id', readAppointmentByEmail)
 
 //GET BY EMAIL BY APPOINTMENT DATE >= TODAY
-router.get('/findByEmailByAppointDate/:id', readAppointmentByEmailByAppointmentDateGTEToday)
+router.get('/findByEmailByAppointDateGTE/:id', readAppointmentByEmailByAppointmentDateGTEToday)
+
+//GET BY EMAIL BY APPOINTMENT DATE < TODAY
+router.get('/findByEmailByAppointDateLT/:id', readAppointmentByEmailByAppointmentDateLTToday)
 
 //GET ALL
 router.get('/', readAppointments)
