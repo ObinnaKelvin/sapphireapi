@@ -121,7 +121,7 @@ export const createAppointment = async (req, res) => {
             email: req.body.email,         
             notes: req.body.notes,
             service: req.body.service,
-            tariff: req.body.tariff,
+            tariff: req.body.totalbill,
             referralTypeId: req.body.referralTypeId,
             referToDoctor: req.body.referToDoctor,
             authorizationNo: req.body.authorizationNo,
