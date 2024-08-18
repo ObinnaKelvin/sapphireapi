@@ -203,7 +203,7 @@ export const createAppointment = async (req, res) => {
                 //console.log(output)
                 //const { email, firstname  } = output
                 sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-                sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId)
+                sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.totalbill, output.appointmentId)
             })
             console.log(`User "${newUser.firstname}" has now been created!🙋‍♂️`)
 
@@ -342,7 +342,7 @@ export const sendAccountCreationEmail = async(emailParams, firstnameParams, pass
                     <br/>
                     <em>We advice that you change your password immediately.</em><br/><br/>
                     <div style="width: 100%; display: flex; align-items: center; margin: 0px auto 0px auto;">
-                        <a href="https://sapphire-partners.vercel.app">
+                        <a href="https://www.sapphiresurgeons.com">
                             <div style="width: 100px; background-color: #0C4CAC; color: #ffffff; padding:10px; text-align:center; margin: 0px auto 0px auto; cursor: pointer">Login</div>
                         </a>
                     </div>
