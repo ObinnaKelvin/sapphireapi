@@ -121,7 +121,7 @@ export const createAppointment = async (req, res) => {
             email: req.body.email,         
             notes: req.body.notes,
             service: req.body.service,
-            tariff: req.body.tariff,
+            tariff: req.body.totalbill,
             referralTypeId: req.body.referralTypeId,
             referToDoctor: req.body.referToDoctor,
             authorizationNo: req.body.authorizationNo,
@@ -148,7 +148,7 @@ export const createAppointment = async (req, res) => {
         .then((output) => {
             console.log(output)
             //sendAccountCreationEmail(output.email, output.firstname, RandomPasswordGen)
-            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.tariff, output.appointmentId, output.paymentStatus)
+            sendAppointmentCreationEmail(output.email, output.firstname, output.lastname, output.appointmentDate, output.service, output.totalbill, output.appointmentId, output.paymentStatus)
         })
         res.status(200).json(newAppointment)
         //res.status(200).json(savedAppointment)
