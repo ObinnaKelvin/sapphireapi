@@ -102,6 +102,36 @@ const PatientSchema = new Schema ({
         type: Number,
         default: 1,
     },
+    emr_maidenname: {
+        type: String,
+    },
+    emr_gender: {
+        type: String,
+    },
+    emr_tel: {
+        type: String,
+    },
+    emr_birthplace: {
+        type: String,
+    },
+    emr_occupation: {
+        type: String,
+    },
+    emr_workplace: {
+        type: String,
+    },
+    emr_kinOccupation: {
+        type: String,
+    },
+    emr_stateCode: {
+        type: String,
+    },
+    emr_nationalityId: {
+        type: String,
+    },
+    emr_religionId: {
+        type: String,
+    },
     encodedBy: {
         type: String,
     },

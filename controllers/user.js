@@ -37,6 +37,7 @@ export const updateUser = async(req, res) => {
     try {
         const updateUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, {new:true})
         res.status(200).json(updateUser)
+        console.log(`User "${updated.firstname}" has now been updated! 🐞`)
     } catch (error) {
         res.status(400).json(error)
         console.log(error);
