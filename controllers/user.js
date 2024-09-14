@@ -22,7 +22,7 @@ export const getUsers = async (req, res) => {
 export const getUser = async (req, res) => {
     try {
         // const user = await User.findById(req.params.id);
-        const user = await User.find({email: req.params.id});
+        const user = await User.find({email: req.params.id}); //email is params.id
         res.status(200).json(user)
         console.log(user);
         
