@@ -8,7 +8,7 @@ const router = express.Router();
 // router.post('/', createCategory);
 
 //GET
-router.get('/:id', getUser)
+router.get('/find/:id', getUser)
 
 //GET ALL
 router.get('/', getUsers)
