@@ -313,6 +313,39 @@ export const resetPassword = async (req, res) => {
     }
 }
 
+export const resetStaffPassword = async (req, res) => {
+    //1. Create hashed password
+    //2. Assign to user
+    //3. set passwordIsValidated to 0
+
+    //Password Recovery Email is sent containing OTP
+    //User enters OTP
+    //Resets Password
+
+    try {
+        const user = await User.findOne({email: req.body.email})
+        if(!user) return res.status(404).json("User not found 🙅‍♂️")
+
+        //Get id of user
+        const id = await user.id;
+        //console.log(id);
+        //res.status(200).json(id);
+        //Encrypt Password
+        const salt = bcrypt.genSaltSync(12);
+        const hash = bcrypt.hashSync(req.body.confirmResetPassword, salt);
+
+        const updated = await User.findByIdAndUpdate(id, { password: hash}, {new:true}) 
+        //const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
+        //res.status(200).json(updated)
+        console.log("New Password generated", updated)
+        return res.status(200).json(updated);
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const sendLoginEmailOtp = async(emailParams, otpParams) => {
 
     // OUTLOOK 
