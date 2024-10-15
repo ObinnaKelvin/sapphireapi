@@ -1,5 +1,5 @@
 import express from "express";
-import { createAppointment, readAppointment, readAppointmentByEmail, readAppointmentByEmailByAppointmentDateGTEToday, readAppointmentByEmailByAppointmentDateLTToday, readAppointments } from '../controllers/appointment.js';
+import { createAppointment, readAppointment, readAppointmentByEmail, readAppointmentByEmailByAppointmentDateGTEToday, readAppointmentByEmailByAppointmentDateLTToday, readAppointments, updateAppointment } from '../controllers/appointment.js';
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/findByEmailByAppointDateLT/:id', readAppointmentByEmailByAppointmen
 router.get('/', readAppointments)
 
 //UPDATE
-//router.put('/:id', updatePatient)
+router.put('/set/:id', updateAppointment)
 
 //DELETE
 //router.delete('/:id', deletePatient)

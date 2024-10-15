@@ -282,6 +282,20 @@ export const readAppointments = async(req, res) => {
 }
 
 
+//UPDATE
+
+export const updateAppointment = async(req, res) => {
+    try {
+        const updated = await Appointment.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true})
+        res.status(200).json(updated)
+        console.log(`Appointment for "${updated.firstname}" has now been updated! 🐞`)
+    } catch (error) {
+        res.status(400).json({message: "cannot update Patient"});
+    }
+}
+
+
+
 //EMAILS 
 
 export const sendAccountCreationEmail = async(emailParams, firstnameParams, passwordParams) => {

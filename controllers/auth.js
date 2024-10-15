@@ -337,7 +337,7 @@ export const resetStaffPassword = async (req, res) => {
         const updated = await User.findByIdAndUpdate(id, { password: hash}, {new:true}) 
         //const updated = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new:true}) 
         //res.status(200).json(updated)
-        console.log("New Password generated", updated)
+        console.log("New Staff Password generated", updated)
         return res.status(200).json(updated);
 
         
