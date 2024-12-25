@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import patientsRoute from '../routes/patient.js'
+import patientReportRoute from '../routes/patientReport.js'
 import appointmentsRoute from '../routes/appointment.js'
 import referraltypesRoute from '../routes/referraltypes.js'
 import statusRoute from '../routes/status.js'
@@ -56,6 +57,7 @@ app.use("/api/tariff", tariffRoute);
 app.use("/api/service", serviceRoute);
 app.use("/api/notifications", notificationsRoute);
 app.use("/api/notificationsByuser", notificationsByUserRoute);
+app.use("/api/patientReport/", patientReportRoute);
 
 //Socket Setup
 const io = new Server({
